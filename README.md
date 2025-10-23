@@ -24,4 +24,5 @@
 # 7.
 
 - Identifique alguna tabla donde se utilice una solución similar:
+  
 La tabla que utiliza una solución similar es la tabla actor
