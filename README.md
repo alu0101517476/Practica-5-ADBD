@@ -18,4 +18,10 @@
 |---------------------------|-------------------------------|
 | Alba Pérez Rodríguez      | alu0101513768@ull.edu.es      |
 | Eric Bermúdez Hernández   | alu0101517476@ull.edu.es      |
+
 ---
+
+# 7.
+
+- Identifique alguna tabla donde se utilice una solución similar:
+La tabla que utiliza una solución similar es la tabla actor
