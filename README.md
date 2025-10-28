@@ -416,7 +416,7 @@ ALTER TABLE language
 
 ```
 
-Esta restricción hace que el nombre desea no vacío
+Esta restricción hace que el nombre sea no vacío
 
 3. Tabla `category`
 
