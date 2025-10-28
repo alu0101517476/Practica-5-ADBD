@@ -231,8 +231,121 @@ El `GROUP BY` agrupa los resultados por actor, y `ORDER BY a.last_name, a.first_
 
 ![Ejercicio d](Img/ejercicio_d.png)
 
-# 7.
+
+# 5. Realice todas las vistas de las consultas anteriores. Colóqueles el prefijo view_ a su denominación.
+
+- Ejercicio a:
+Creamos la vista:
+
+```sql
+Create view view_ventas_totales as SELECT SUM(p.amount) as ventas_totales,
+	c.name as categoría
+FROM payment p 
+INNER JOIN rental as r
+ON r.rental_id = p.rental_id
+INNER JOIN inventory i
+on i.inventory_id = r.inventory_id
+INNER JOIN film_category fc
+ON fc.film_id = i.film_id
+INNER JOIN category c
+ON c.category_id = fc.category_id
+GROUP BY c.name 
+ORDER BY ventas_totales DESC; 
+```
+Comprobamos su funcionamiento:
+```sql
+SELECT * FROM view_ventas_totales;
+```
+![Ejercicio a](Img/ejercicio_a.png)
+
+- Ejercicio b:
+Creamos vista:
+
+```sql
+CREATE OR REPLACE VIEW vista_b_ventas_tienda AS
+SELECT 
+    s.store_id,
+    (c.city || ', ' || a.country) AS ciudad_pais,
+    st.first_name || ' ' || st.last_name AS encargado,
+    SUM(p.amount) AS ventas_totales
+FROM store s
+INNER JOIN staff st ON s.manager_staff_id = st.staff_id
+INNER JOIN address ad ON s.address_id = ad.address_id
+INNER JOIN city c ON ad.city_id = c.city_id
+INNER JOIN country a ON c.country_id = a.country_id
+INNER JOIN customer cu ON s.store_id = cu.store_id
+INNER JOIN payment p ON cu.customer_id = p.customer_id
+GROUP BY s.store_id, c.city, a.country, st.first_name, st.last_name
+ORDER BY ventas_totales DESC;
+```
+Comprobamos su funcinamiento:
+```sql
+SELECT * FROM vista_b_ventas_tienda;
+```
+![Ejercicio B](Img/ejercicio_b.png)
+
+- Ejercicio c:
+Creamos vista:
+```sql
+CREATE OR REPLACE VIEW vista_c_peliculas_actores AS
+SELECT 
+    f.film_id AS id_pelicula,
+    f.title AS titulo,
+    f.description AS descripcion,
+    c.name AS categoria,
+    f.rental_rate AS precio,
+    f.length AS duracion,
+    f.rating AS clasificacion,
+    STRING_AGG(a.first_name || ' ' || a.last_name, ', ') AS actores
+FROM film f
+INNER JOIN film_category fc ON f.film_id = fc.film_id
+INNER JOIN category c ON fc.category_id = c.category_id
+INNER JOIN film_actor fa ON f.film_id = fa.film_id
+INNER JOIN actor a ON fa.actor_id = a.actor_id
+GROUP BY f.film_id, f.title, f.description, c.name, f.rental_rate, f.length, f.rating
+ORDER BY f.title;
+```
+Comprobamos funcionamiento:
+```sql
+SELECT * FROM vista_c_peliculas_actores;
+```
+![Ejercicio c](Img/ejercicio_c.png)
+
+- Ejercicio d:
+Creamos vista:
+```sql
+CREATE OR REPLACE VIEW vista_d_actores_categorias_peliculas AS
+SELECT 
+    a.actor_id,
+    a.first_name || ' ' || a.last_name AS actor,
+    STRING_AGG(c.name || ': ' || f.title, ', ') AS categorias_peliculas
+FROM actor a
+INNER JOIN film_actor fa ON a.actor_id = fa.actor_id
+INNER JOIN film f ON fa.film_id = f.film_id
+INNER JOIN film_category fc ON f.film_id = fc.film_id
+INNER JOIN category c ON fc.category_id = c.category_id
+GROUP BY a.actor_id, a.first_name, a.last_name
+ORDER BY a.last_name, a.first_name;
+
+```
+Comprobamos funcionamiento:
+```sql
+SELECT * FROM vista_d_actores_categorias_peliculas;
+```
+![Ejercicio d](Img/ejercicio_d.png)
+
+
+# 6. Haga un análisis del modelo e incluya las restricciones CHECK que considere necesarias.
+
+
+# 7. Explique la sentencia que aparece en la tabla customer 
 
 - Identifique alguna tabla donde se utilice una solución similar:
   
 La tabla que utiliza una solución similar es la tabla actor
+
+# 8. Construya un disparador que guarde en una nueva tabla creada por usted la fecha de cuando se insertó un nuevo registro en la tabla film y el identificador del film. 
+
+# 9. Construya un disparador que guarde en una nueva tabla creada por usted la fecha de cuando se eliminó un registro en la tabla film y el identificador del film. 
+
+# 10. Comente el significado y la relevancia de las secuencias.
