@@ -705,8 +705,6 @@ Al borrar la fila la tabla `film_delete_log` contiene la siguiente fila:
 
 # 10. Comente el significado y la relevancia de las secuencias.
 
-## ✨ Significado y relevancia de las secuencias en la base de datos
-
 Las **secuencias** son objetos especiales dentro del sistema de gestión de bases de datos que se utilizan para generar valores numéricos únicos de forma automática, generalmente de manera incremental. En el modelo de datos del videoclub, cada secuencia está asociada a un campo que actúa como clave primaria, facilitando así la identificación única de cada registro.
 
 A continuación, se describen las secuencias presentes en la base de datos y su función específica:
