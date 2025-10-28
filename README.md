@@ -639,7 +639,7 @@ EXECUTE FUNCTION registrar_insercion_film();
 
 ```
 
-Este trigger es de tipo `AFTER INSERT`, es decir, se dispara después de que ha insertado el registro en `film`, actuando por cada fila insertada ejecutando la función que acabamos de crear
+Este trigger es de tipo `AFTER INSERT`, es decir, se dispara después de que se haya insertado el registro en `film`, actuando por cada fila insertada ejecutando la función que acabamos de crear
 
 Para comprobar que funcionaba correctamente el trigger, hemos introducido la siguiente fila en la tabla `film`:
 
