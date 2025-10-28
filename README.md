@@ -144,10 +144,83 @@ descendentemente**
 (concatenar la ciudad y el país empleando como separador la “,”), y el
 encargado. Pudiera emplear *GROUP BY*, *ORDER BY***
 
+```sql
+SELECT 
+    s.store_id,
+    (c.city || ', ' || a.country) AS ciudad_pais,
+    CONCAT(st.first_name, ' ', st.last_name) AS encargado,
+    SUM(p.amount) AS ventas_totales
+FROM store s
+    INNER JOIN staff st ON s.manager_staff_id = st.staff_id
+    INNER JOIN address ad ON s.address_id = ad.address_id
+    INNER JOIN city c ON ad.city_id = c.city_id
+    INNER JOIN country a ON c.country_id = a.country_id
+    INNER JOIN customer cu ON s.store_id = cu.store_id
+    INNER JOIN payment p ON cu.customer_id = p.customer_id
+GROUP BY s.store_id, c.city, a.country, st.first_name, st.last_name
+ORDER BY ventas_totales DESC;
+```
+Esta consulta obtiene las ventas totales por cada tienda, mostrando:
+- El identificador de la tienda (`store_id`).
+- La ciudad y el país concatenados en una sola columna (`ciudad_pais`), utilizando el operador `||` para unir texto.
+- El nombre completo del encargado (`encargado`), concatenando el nombre y apellido del empleado.
+- El total de ventas (`ventas_totales`), calculado con `SUM(p.amount)`.
 
+Las tablas `store`, `staff`, `address`, `city`, `country`, `customer` y `payment` se relacionan mediante `INNER JOIN` para obtener toda la información necesaria.  
+Se utiliza `GROUP BY` para agrupar las ventas por tienda y evitar duplicados.  
+Finalmente, `ORDER BY ventas_totales DESC` ordena los resultados de mayor a menor total de ventas.
 
+- **c. Obtenga una lista de películas, donde se reflejen el identificador, el título, descripción, categoría, el precio, la duración de la película, clasificación, nombre y apellidos de los actores (puede realizar una concatenación de ambos). Pudiera emplear GROUP BY**
 
+	```sql
+	SELECT 
+    f.film_id AS id_pelicula,
+    f.title AS titulo,
+    f.description AS descripcion,
+    c.name AS categoria,
+    f.rental_rate AS precio,
+    f.length AS duracion,
+    f.rating AS clasificacion,
+    STRING_AGG(a.first_name || ' ' || a.last_name, ', ') AS actores
+	FROM film f
+	INNER JOIN film_category fc ON f.film_id = fc.film_id
+	INNER JOIN category c ON fc.category_id = c.category_id
+	INNER JOIN film_actor fa ON f.film_id = fa.film_id
+	INNER JOIN actor a ON fa.actor_id = a.actor_id
+	GROUP BY f.film_id, f.title, f.description, c.name, f.rental_rate, f.length, f.rating
+	ORDER BY f.title;
+	```
 
+Esta consulta lista todas las películas, mostrando:
+- El identificador, título, descripción, categoría, precio de alquiler, duración y clasificación de cada película.
+- Los actores que participan en cada una, concatenados en una sola columna usando `STRING_AGG`.
+
+Las tablas `film`, `film_category`, `category`, `film_actor` y `actor` se combinan con `INNER JOIN` para unir la información de películas, categorías y actores.  
+`STRING_AGG(a.first_name || ' ' || a.last_name, ', ')` concatena los nombres y apellidos de los actores separados por comas.  
+Se emplea `GROUP BY` para agrupar la información por película y evitar repeticiones, y `ORDER BY f.title` para ordenar las películas alfabéticamente.
+
+- **d. Obtenga la información de los actores, donde se incluya sus nombres y apellidos, las categorías y sus películas. Los actores deben de estar agrupados y, las categorías y las películas deben estar concatenados por “:”**
+
+```sql
+	SELECT 
+    a.actor_id,
+    a.first_name || ' ' || a.last_name AS actor,
+    STRING_AGG(c.name || ': ' || f.title, ', ') AS categorias_peliculas
+	FROM actor a
+	INNER JOIN film_actor fa ON a.actor_id = fa.actor_id
+	INNER JOIN film f ON fa.film_id = f.film_id
+	INNER JOIN film_category fc ON f.film_id = fc.film_id
+	INNER JOIN category c ON fc.category_id = c.category_id
+	GROUP BY a.actor_id, a.first_name, a.last_name
+	ORDER BY a.last_name, a.first_name;
+```
+Esta consulta obtiene información de cada actor, incluyendo:
+- Su nombre y apellido concatenados.
+- Las categorías y títulos de películas en las que participa, concatenados con “:” dentro de una misma cadena.
+
+`STRING_AGG(c.name || ': ' || f.title, ', ')` une la categoría y el título de cada película en un formato legible, separando cada par con comas.  
+Las tablas `actor`, `film_actor`, `film`, `film_category` y `category` se combinan para obtener la relación entre actores, películas y categorías.  
+El `GROUP BY` agrupa los resultados por actor, y `ORDER BY a.last_name, a.first_name` ordena los nombres alfabéticamente.
 
 # 7.
 
