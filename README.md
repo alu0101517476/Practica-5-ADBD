@@ -79,7 +79,7 @@ A continuación se describen las tablas con sus principales elementos:
 **film(language_id: int, film_id: int, description: text, fulltext: vector, length: int, rating: function, release_year: year, rental_duration: int, rental_rate: numeric(4, 2), replacement_cost: numeric(5, 2), special_features: text[], title: varchar(255))**
 
 	PK: film_id
-	FK: languaje_id
+	FK: language_id
 
 **film_actor(actor_id: int, film_id: int)**
 
@@ -407,7 +407,7 @@ Hace que reponer una película sea igual o más caro que un alquiler, ya que es 
 
 Fuerza a que un título no esté vacío
 
-2. Tabla `languaje`
+2. Tabla `language`
 
 ```SQL
 ALTER TABLE language
