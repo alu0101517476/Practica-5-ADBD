@@ -55,7 +55,7 @@ pg_restore -U nombre_usuario -d nombre_basedatos -1 ruta_al_archivo.backup
 
 # 2. Identifique las tablas, vistas y secuencias.
 
-En la siguiente imagen se pueden apreciar tanto las tablas, como las visgtas y las secuencias gracias a la interfaz gráfica del dbeaver. En la base de datos existen tanto tablas como secuencias pero no vistas
+En la siguiente imagen se pueden apreciar tanto las tablas, como las vistas y las secuencias gracias a la interfaz gráfica del dbeaver. En la base de datos existen tanto tablas como secuencias pero no vistas
 
 ![Ejercicio 2](Img/Tablas,%20Vistas,%20Secuencias.png)
 
