@@ -12,6 +12,28 @@
 
 ---
 
+# 📑 **Índice**
+
+- [📘 Práctica 5: Modelo Relacional. Vistas y disparadores](#-práctica-5-modelo-relacional-vistas-y-disparadores)
+  - [🏫 Información Académica](#-información-académica)
+  - [👥 Miembros del Grupo](#-miembros-del-grupo)
+  - [1. Restauración de la base de datos](#1-restauración-de-la-base-de-datos)
+  - [2. Identifique las tablas, vistas y secuencias](#2-identifique-las-tablas-vistas-y-secuencias)
+  - [3. Identifique las tablas principales y sus principales elementos](#3--identifique-las-tablas-principales-y-sus-principales-elementos)
+  - [4. Realice las siguientes consultas](#4-realice-las-siguientes-consultas)
+    - [a. Ventas totales por categoría](#a-obtenga-las-ventas-totales-por-categoría-de-películas-ordenadas-descendentemente)
+    - [b. Ventas totales por tienda](#b-obtenga-las-ventas-totales-por-tienda-donde-se-refleje-la-ciudad-el-país)
+    - [c. Lista de películas con actores](#c-obtenga-una-lista-de-películas-donde-se-reflejen-el-identificador-el-título)
+    - [d. Información de actores por categorías y películas](#d-obtenga-la-información-de-los-actores-donde-se-incluya-sus-nombres)
+  - [5. Realice todas las vistas de las consultas anteriores](#5-realice-todas-las-vistas-de-las-consultas-anteriores-colóqueles-el-prefijo-view_-a-su-denominación)
+  - [6. Análisis del modelo y restricciones CHECK](#6-haga-un-análisis-del-modelo-e-incluya-las-restricciones-check-que-considere-necesarias)
+  - [7. Explicación de la sentencia en la tabla customer](#7-explique-la-sentencia-que-aparece-en-la-tabla-customer)
+  - [8. Trigger para inserción en film](#8-construya-un-disparador-que-guarde-en-una-nueva-tabla-creada-por-usted-la-fecha-de-cuando-se-insertó-un-nuevo-registro-en-la-tabla-film-y-el-identificador-del-film)
+  - [9. Trigger para eliminación en film](#9-construya-un-disparador-que-guarde-en-una-nueva-tabla-creada-por-usted-la-fecha-de-cuando-se-eliminó-un-registro-en-la-tabla-film-y-el-identificador-del-film)
+  - [10. Significado y relevancia de las secuencias](#10-comente-el-significado-y-la-relevancia-de-las-secuencias)
+
+---
+
 ## 👥 Miembros del Grupo
 
 | **Nombre**                 | **Correo**                    |
