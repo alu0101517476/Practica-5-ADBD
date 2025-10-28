@@ -140,6 +140,8 @@ descendentemente**
 
   La consulta suma todos los pagos realizados por los clientes (payment.amount), los relaciona con qué película se alquiló y a qué categoría pertenece esa película, y luego agrupa esas sumas por categoría de película. Finalmente, ordena los resultados de mayor a menor para mostrar qué categorías han generado más ingresos.
 
+![Ejercicio a](Img/ejercicio_a.png)
+
 - **b. Obtenga las ventas totales por tienda, donde se refleje la ciudad, el país
 (concatenar la ciudad y el país empleando como separador la “,”), y el
 encargado. Pudiera emplear *GROUP BY*, *ORDER BY***
@@ -170,6 +172,8 @@ Las tablas `store`, `staff`, `address`, `city`, `country`, `customer` y `payment
 Se utiliza `GROUP BY` para agrupar las ventas por tienda y evitar duplicados.  
 Finalmente, `ORDER BY ventas_totales DESC` ordena los resultados de mayor a menor total de ventas.
 
+![Ejercicio b](Img/ejercicio_b.png)
+
 - **c. Obtenga una lista de películas, donde se reflejen el identificador, el título, descripción, categoría, el precio, la duración de la película, clasificación, nombre y apellidos de los actores (puede realizar una concatenación de ambos). Pudiera emplear GROUP BY**
 
 	```sql
@@ -199,6 +203,9 @@ Las tablas `film`, `film_category`, `category`, `film_actor` y `actor` se combin
 `STRING_AGG(a.first_name || ' ' || a.last_name, ', ')` concatena los nombres y apellidos de los actores separados por comas.  
 Se emplea `GROUP BY` para agrupar la información por película y evitar repeticiones, y `ORDER BY f.title` para ordenar las películas alfabéticamente.
 
+
+![Ejercicio c](Img/ejercicio_c.png)
+
 - **d. Obtenga la información de los actores, donde se incluya sus nombres y apellidos, las categorías y sus películas. Los actores deben de estar agrupados y, las categorías y las películas deben estar concatenados por “:”**
 
 ```sql
@@ -221,6 +228,8 @@ Esta consulta obtiene información de cada actor, incluyendo:
 `STRING_AGG(c.name || ': ' || f.title, ', ')` une la categoría y el título de cada película en un formato legible, separando cada par con comas.  
 Las tablas `actor`, `film_actor`, `film`, `film_category` y `category` se combinan para obtener la relación entre actores, películas y categorías.  
 El `GROUP BY` agrupa los resultados por actor, y `ORDER BY a.last_name, a.first_name` ordena los nombres alfabéticamente.
+
+![Ejercicio d](Img/ejercicio_d.png)
 
 # 7.
 
