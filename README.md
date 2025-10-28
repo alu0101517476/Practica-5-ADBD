@@ -45,7 +45,11 @@
 
 # 1. Restauración de la base de datos
 
-Mediante comandos de plsql realizados en la sesión de prácticas, restauramos la base de datos. En la siguiente imagen se puede apreciar como a raíz de la restauración aparece en la interfaz de dbeaver
+Mediante comandos de plsql realizados en la sesión de prácticas, restauramos la base de datos. En la siguiente imagen se puede apreciar como a raíz de la restauración aparece en la interfaz de dbeaver. El comando utilizado en la sesión de prácticas es el siguiente: 
+
+```bash
+pg_restore -U nombre_usuario -d nombre_basedatos -1 ruta_al_archivo.backup
+```
 
 ![Comprobación existe bbdd](Img/Restauración%20bbdd%20(Ej.%201).png)
 
