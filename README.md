@@ -147,6 +147,8 @@ encargado. Pudiera emplear *GROUP BY*, *ORDER BY***
 
 
 
+
+
 # 7.
 
 - Identifique alguna tabla donde se utilice una solución similar:
