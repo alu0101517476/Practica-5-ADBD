@@ -222,7 +222,7 @@ Se emplea `GROUP BY` para agrupar la información por película y evitar repetic
 	ORDER BY a.last_name, a.first_name;
 ```
 Esta consulta obtiene información de cada actor, incluyendo:
-- Su nombre y apellido concatenados.
+- Su id, nombre y apellido concatenados.
 - Las categorías y títulos de películas en las que participa, concatenados con “:” dentro de una misma cadena.
 
 `STRING_AGG(c.name || ': ' || f.title, ', ')` une la categoría y el título de cada película en un formato legible, separando cada par con comas.  
