@@ -710,42 +710,55 @@ Las **secuencias** son objetos especiales dentro del sistema de gestión de base
 A continuación, se describen las secuencias presentes en la base de datos y su función específica:
 
 1. `actor_actor_id_seq`
+
 Genera valores únicos para la columna `actor_id` de la tabla `actor`. Garantiza que cada actor tenga un identificador distinto, necesario para establecer relaciones con otras tablas como `film_actor`.
 
 2. `address_address_id_seq`
+
 Asocia identificadores únicos a cada dirección almacenada en la tabla `address`. Es fundamental para relacionar direcciones con clientes, empleados y tiendas.
 
 3. `category_category_id_seq`
+
 Genera automáticamente el identificador `category_id` de la tabla `category`. Permite clasificar correctamente las películas dentro del catálogo en categorías únicas como “Acción”, “Comedia” o “Drama”.
 
 4. `city_city_id_seq`
+
 Proporciona identificadores únicos para cada ciudad en la tabla `city`, evitando duplicidades y asegurando una estructura organizada para el sistema de localización.
 
 5. `country_country_id_seq`
+
 Genera valores únicos para `country_id` en la tabla `country`, facilitando la organización jerárquica de localizaciones (país → ciudad → dirección).
 
 6. `customer_customer_id_seq`
+
 Produce identificadores irrepetibles para los clientes en la tabla `customer`. Es esencial para gestionar alquileres, pagos y el estado activo o inactivo de cada cliente.
 
 7. `film_film_id_seq`
+
 Genera IDs únicos para la tabla `film`. Esto permite registrar cada película de forma individual y controlada, facilitando su relación con inventarios, alquileres y categorías.
 
 8. `inventory_inventory_id_seq`
+
 Crea valores únicos en `inventory_id` de la tabla `inventory`. Esto permite identificar cada copia física de una película, incluso si existen varias copias del mismo film en diferentes tiendas.
 
 9. `language_language_id_seq`
+
 Genera identificadores únicos para cada idioma disponible en la tabla `language`, lo cual permite establecer el idioma principal de cada película.
 
 10. `payment_payment_id_seq`
+
 Genera automáticamente el `payment_id` para cada pago registrado en la tabla `payment`. Es clave para la trazabilidad financiera y para vincular pagos con alquileres y clientes.
 
 11. `rental_rental_id_seq`
+
 Proporciona identificadores únicos para los registros de alquiler en la tabla `rental`. Permite conocer qué cliente alquiló qué película y en qué momento.
 
 12. `staff_staff_id_seq`
+
 Genera identificadores únicos en la tabla `staff`, asignando un número distinto a cada empleado del videoclub para su correcta identificación dentro del sistema.
 
 13. `store_store_id_seq`
+
 Genera valores únicos para `store_id` en la tabla `store`, permitiendo diferenciar cada tienda física dentro de la base de datos.
 
 Por tanto, sabemos que las secuencias son elementos fundamentales para garantizar la **integridad, coherencia y automatización** del modelo de datos. Gracias a ellas:
