@@ -635,7 +635,7 @@ Por último, creamos el trigger que llama a la función
 CREATE TRIGGER trigger_registrar_insercion_film
 AFTER INSERT ON film
 FOR EACH ROW
-EXECUTE FUNCTION registrar_insercion_film();
+EXECUTE FUNCTION film_report();
 
 ```
 
