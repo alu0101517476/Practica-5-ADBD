@@ -370,7 +370,7 @@ Analizando el modelo de la base de datos con la que hemos experimentado en esta 
 ```SQL
 ALTER TABLE film
   ADD CONSTRAINT chk_film_release_year
-    CHECK (release_year BETWEEN 1900 AND EXTRACT(YEAR FROM CURRENT_DATE) + 5),
+    CHECK (release_year BETWEEN 1900 AND (EXTRACT(YEAR FROM CURRENT_DATE)::int + 5)),
   ADD CONSTRAINT chk_film_length
     CHECK (length IS NOT NULL AND length >= 0),
   ADD CONSTRAINT chk_film_rental_duration
@@ -381,31 +381,33 @@ ALTER TABLE film
     CHECK (replacement_cost >= 0),
   ADD CONSTRAINT chk_film_costs_relation
     CHECK (replacement_cost >= rental_rate),
-  ADD CONSTRAINT chk_film_title
-    CHECK (title IS NOT NULL),
+  ADD CONSTRAINT chk_film_title_not_empty
+    CHECK (title IS NOT NULL AND length(trim(title)) > 0),
   ADD CONSTRAINT chk_film_rating_enum
+    CHECK (rating IN ('G', 'PG', 'PG-13', 'R', 'NC-17'));
 
 ```
 
-- `CHECK (release_year BETWEEN 1900 AND year_actual + 5)`
+- `CHECK (release_year BETWEEN 1900 AND EXTRACT(YEAR FROM CURRENT_DATE)::int + 5)`
 
-Obliga a que el año de estreno tenga una fecha razonable, además de que permite los títulos que llegan próximamente en un plazo de 5 años
+  Obliga a que el año de estreno sea razonable (no anterior a 1900) y permite incluir películas con fecha de lanzamiento hasta cinco años en el futuro.
 
 - `CHECK (length IS NOT NULL AND length >= 0)`
 
-Hace que la duración no puede ser negativa y no vacía
+  Garantiza que la duración de la película no sea nula ni negativa.
 
 - `CHECK (rental_rate >= 0)`
 
-Hace que el precio del alquiler no pueda ser negativo
+  Asegura que el precio de alquiler no pueda ser negativo.
 
 - `CHECK (replacement_cost >= rental_rate)`
 
-Hace que reponer una película sea igual o más caro que un alquiler, ya que es raro que reponer cueste menos que un alquiler
+  Establece que el costo de reposición sea igual o mayor que el precio de alquiler, ya que sería ilógico que reemplazar una película cueste menos que alquilarla.
 
-- `CHECK (title IS NOT NULL)`
+- `CHECK (title IS NOT NULL AND length(trim(title)) > 0)`
 
-Fuerza a que un título no esté vacío
+  Obliga a que el título de la película no sea nulo ni una cadena vacía, evitando que existan películas sin nombre o con espacios en blanco.
+
 
 2. Tabla `language`
 
@@ -469,72 +471,38 @@ Hace que un pago no pueda ser negativo
 ```SQL
 ALTER TABLE customer
   ADD CONSTRAINT chk_customer_first_name
-    CHECK (btrim(first_name) <> ''),
+    CHECK (first_name IS NOT NULL AND length(btrim(first_name)) > 0),
   ADD CONSTRAINT chk_customer_last_name
-    CHECK (btrim(last_name) <> ''),
+    CHECK (last_name IS NOT NULL AND length(btrim(last_name)) > 0),
   ADD CONSTRAINT chk_customer_active_bit
     CHECK (active IN (0, 1)),
   ADD CONSTRAINT chk_customer_active_sync
     CHECK (
-      (activebool = TRUE  AND active = 1) OR
-      (activebool = FALSE AND active = 0)
-    );
+      (activebool IS TRUE  AND active = 1) OR
+      (activebool IS FALSE AND active = 0) OR
+      (activebool IS NULL  AND active IS NULL)
+    ) NOT VALID;
 
 ```
+- `CHECK (first_name IS NOT NULL AND length(btrim(first_name)) > 0)`  
+  Esta restricción evita que existan clientes sin nombre, ni con cadenas vacías o espacios en blanco.
 
-- `CHECK (btrim(first_name) <> '' AND btrim(last_name) <> '')`
+- `CHECK (last_name IS NOT NULL AND length(btrim(last_name)) > 0)`  
+  Esta restricción asegura que los apellidos de los clientes tampoco estén vacíos ni sean nulos.
 
-Esta restricción evita que hayan clientes sin nombre
+- `CHECK (active IN (0,1))`  
+  Garantiza que el atributo `active`, que representa activo/inactivo como entero, solo pueda tener los valores `0` o `1`.
 
-- `CHECK (active IN (0,1))`
+- `CHECK ((activebool IS TRUE AND active = 1) OR (activebool IS FALSE AND active = 0) OR (activebool IS NULL AND active IS NULL)) NOT VALID`  
+  Sincroniza el campo booleano `activebool` con el entero `active`, asegurando que ambos reflejen el mismo estado lógico:  
+  - Si `activebool` es `TRUE`, entonces `active` debe ser `1`.  
+  - Si `activebool` es `FALSE`, entonces `active` debe ser `0`.  
+  - Si ambos son `NULL`, se permite también.  
+  La opción `NOT VALID` permite crear la restricción aunque existan filas antiguas que aún no cumplan la regla.
 
-Hace que si el atributo `active` es un entero que representa activo/inactivo, fuerza los valores booleanos de 0 o 1
 
-- `CHECK ((activebool = TRUE AND active = 1) OR (activebool = FALSE AND active = 0))`
 
-Sincroniza el campo booleano `activebool` con el entero `active`, de esta manera evitamos contradicciones entre los dos atributos
-
-8. Tabla `staff`
-
-```SQL
-ALTER TABLE staff
-  ADD CONSTRAINT chk_staff_first_name
-    CHECK (btrim(first_name) <> ''),
-  ADD CONSTRAINT chk_staff_last_name
-    CHECK (btrim(last_name) <> ''),
-  ADD CONSTRAINT chk_staff_email_format
-    CHECK (email ~ '^[^@]+@[^@]+\\.[^@]+$');
-
-```
-
-- `CHECK (btrim(first_name) <> '' AND btrim(last_name) <> '')`
-
-Esta restricción evita que hayan empleados sin nombre
-
-- `CHECK (email ~ '^[^@]+@[^@]+\.[^@]+$')`
-
-Valida que haya un formato para escribir los emails
-
-9. Tabla `address`
-
-```SQL
-ALTER TABLE address
-  ADD CONSTRAINT chk_address_main
-    CHECK (btrim(address) <> ''),
-  ADD CONSTRAINT chk_address_phone_blank
-    CHECK (phone IS NULL OR btrim(phone) <> '');
-
-```
-
-- `CHECK (btrim(address) <> '')`
-
-Esta restricción no permite direcciones vacías
-
-- `CHECK (phone IS NULL OR btrim(phone) <> '')`
-
-Permite que un teléfono sea NULL y que si hay un teléfono que tenga dígitos
-
-10. Tabla `city`
+8. Tabla `city`
 
 ```SQL
 ALTER TABLE city
@@ -545,7 +513,7 @@ ALTER TABLE city
 
 Esta restricción hace que no hayan ciudades sin nombre
 
-11. Tabla `country`
+9. Tabla `country`
 
 ```SQL
 ALTER TABLE country
